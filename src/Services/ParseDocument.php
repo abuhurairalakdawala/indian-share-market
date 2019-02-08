@@ -32,6 +32,28 @@ class ParseDocument
     }
 
     /**
+     * This function will pull data from remote URLs
+     * 
+     * @return string
+     */
+    public function pullDataFromRemote($url): string
+    {
+        $context = stream_context_create(
+            array(
+                'http' => array(
+                    'header' => array('User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
+                )
+            )
+        );
+
+        return @file_get_contents(
+            $url,
+            false,
+            $context
+        );
+    }
+
+    /**
      * Initialize scrapping websites
      * 
      * @param  string $url
@@ -39,20 +61,7 @@ class ParseDocument
      */
     public function get($url)
     {
-        $context = stream_context_create(
-            array(
-                'http' => array(
-                    'header' => array('User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
-                    'timeout' => 10
-                ),
-            )
-        );
-
-        $file = @file_get_contents(
-            $url,
-            false,
-            $context
-        );
+        
         libxml_use_internal_errors(true);
 
         return ($file) ? $this->domDocument->loadHTML($file) : false;
