@@ -1,0 +1,17 @@
+{
+    "name": "abuhurairalakdawala/indian-share-market",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Abuhuraira Lakdawala",
+            "email": "abu2602@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+    	"psr-4": {
+    		"IndianShareMarket\\": "src/"
+    	}
+    }
+}
