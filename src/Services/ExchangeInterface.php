@@ -3,5 +3,7 @@ namespace IndianShareMarket\Services;
 
 interface ExchangeInterface
 {
-    public function stockList(string $options): array;
+    public function stockList(): string;
+
+    public function sectorList();
 }

@@ -13,6 +13,9 @@ class IndianShareMarket
     /** @var $bse \IndianShareMarket\Services\Bse */
     private $bse;
 
+    /** @var $equities */
+    private $data = [];
+
     /** IndianShareMarket constructor. */
     public function __construct()
     {
@@ -21,39 +24,68 @@ class IndianShareMarket
     }
 
     /**
-     * Fetches all the stocks of Nse & Bse in either three formats array, csv or download a file.
+     * Fetches all the stocks of Nse & Bse.
      * 
      * @param  array  $options
      * @return array
      */
-    public function stockList(array $options = [
-        'for' => 'nse', // all, nse, bse
-        'format' => 'array' // array, csv, download
-    ]): array
+    public function stockList(string $exchange = 'nse'): IndianShareMarket
     {
-        if (!isset($options['for'])) {
-            $options['for'] = 'nse';
+        if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'all') {
+            throw new ExchangeException('Incorrect parameter value. Only nse and bse is allowed.');
         }
 
-        if (!isset($options['format'])) {
-            $options['format'] = 'array';
+        if ($exchange == 'nse' || $exchange == 'all') {
+            $this->data['nse']['data'] = $this->nse->stockList();
+            $this->data['nse']['type'] = 'equity';
         }
 
-        $data = [];
-
-        if ($options['for'] == 'all' || $options['for'] == 'nse') {
-            $data['nse'] = $this->nse->stockList($options['format']);
+        if ($exchange == 'bse' || $exchange == 'all') {
+            $this->data['bse']['data'] = $this->bse->stockList();
+            $this->data['bse']['type'] = 'equity';
         }
 
-        if ($options['for'] == 'all' || $options['for'] == 'bse') {
-            $data['bse'] = $this->bse->stockList($options['format']);
-        }
-
-        return $data;
+        return $this;
     }
 
-    private function getQuote($code)
+    /**
+     * Returns data in array format.
+     * 
+     * @return array
+     */
+    public function array(): array
     {
-        
+        if (isset($this->data['nse'])) {
+            return $this->nse->{$this->data['nse']['type']."InArray"}($this->data['nse']['data']);
+        }
+    }
+
+
+    /**
+     * Generates CSV.
+     * 
+     * @return array
+     */
+    public function csv(): array
+    {
+        if (isset($this->data['nse'])) {
+            return $this->nse->{$this->data['nse']['type']."InCsv"}($this->data['nse']['data']);
+        }
+    }
+
+    /**
+     * Returns data in json format
+     * 
+     * @return string
+     */
+    public function json(): string
+    {
+        header('Content-Type: application/json');
+        if (isset($this->data['nse'])) {
+            $data = $this->nse->{$this->data['nse']['type']."InArray"}($this->data['nse']['data']);
+            $data['format'] = 'json';
+
+            return json_encode($data);
+        }
     }
 }
