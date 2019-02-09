@@ -41,7 +41,7 @@ class ParseDocument
         $context = stream_context_create(
             array(
                 'http' => array(
-                    'header' => array('User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
+                    'header' => array('User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201')
                 )
             )
         );
@@ -61,7 +61,7 @@ class ParseDocument
      */
     public function get($url)
     {
-        
+        $file = $this->pullDataFromRemote($url);
         libxml_use_internal_errors(true);
 
         return ($file) ? $this->domDocument->loadHTML($file) : false;

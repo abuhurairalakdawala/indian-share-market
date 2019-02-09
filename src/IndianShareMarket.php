@@ -27,12 +27,12 @@ class IndianShareMarket
      * @return array
      */
     public function stockList(array $options = [
-        'for' => 'all', // all, nse, bse
+        'for' => 'nse', // all, nse, bse
         'format' => 'array' // array, csv, download
     ]): array
     {
         if (!isset($options['for'])) {
-            $options['for'] = 'all';
+            $options['for'] = 'nse';
         }
 
         if (!isset($options['format'])) {
@@ -43,6 +43,10 @@ class IndianShareMarket
 
         if ($options['for'] == 'all' || $options['for'] == 'nse') {
             $data['nse'] = $this->nse->stockList($options['format']);
+        }
+
+        if ($options['for'] == 'all' || $options['for'] == 'bse') {
+            $data['bse'] = $this->bse->stockList($options['format']);
         }
 
         return $data;

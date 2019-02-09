@@ -29,7 +29,7 @@ class Nse implements ExchangeInterface
      */
     public function stockList(string $format = 'array'): array
     {
-    	if($format != 'csv' && $format != 'array') {
+        if($format != 'csv' && $format != 'array') {
             throw new ExchangeException('Invalid value for format key. It should be either array, csv or download.');
         }
 
@@ -38,11 +38,11 @@ class Nse implements ExchangeInterface
         array_pop($fileData);
 
         if ($format == 'csv') {
-        	return $this->stockListCsv($fileData);
+            return $this->stockListCsv($fileData);
         }
 
         if ($format == 'array') {
-        	return $this->stockListArray($fileData);
+            return $this->stockListArray($fileData);
         }
     }
 
@@ -54,25 +54,25 @@ class Nse implements ExchangeInterface
      */
     private function stockListCsv(array $data): array
     {
-    	if (!is_dir($this->csvPath)) {
-    		if (!@mkdir($this->csvPath, 0777, true)) {
-    			throw new ExchangeException("Unable to create folder: $this->csvPath");
-    		}
-    	}
+        if (!is_dir($this->csvPath)) {
+            if (!@mkdir($this->csvPath, 0777, true)) {
+                throw new ExchangeException("Unable to create folder: $this->csvPath");
+            }
+        }
 
-    	$file = @fopen($this->csvPath.$this->csvEquitiesFilename, 'w');
-    	if (!$file) {
-    		throw new ExchangeException("Unable to create file: $this->csvPath$this->csvEquitiesFilename");
-    	}
+        $file = @fopen($this->csvPath.$this->csvEquitiesFilename, 'w');
+        if (!$file) {
+            throw new ExchangeException("Unable to create file: $this->csvPath$this->csvEquitiesFilename");
+        }
         foreach ($data as $row) {
             fputcsv($file, explode(',', $row));
         }
         fclose($file);
 
         return [
-    		'format' => 'csv',
-    		'file_path' => $this->csvPath.$this->csvEquitiesFilename
-    	];
+            'format' => 'csv',
+            'file_path' => $this->csvPath.$this->csvEquitiesFilename
+        ];
     }
 
     /**
@@ -83,22 +83,22 @@ class Nse implements ExchangeInterface
      */
     private function stockListArray(array $data): array
     {
-    	$firstRow = strtolower(current($data));
-    	$keys = array_map(function($item) {
-	        return str_replace(' ', '_', trim($item));
-	    }, explode(',', $firstRow));
-    	array_shift($data);
+        $firstRow = strtolower(current($data));
+        $keys = array_map(function($item) {
+            return str_replace(' ', '_', trim($item));
+        }, explode(',', $firstRow));
+        array_shift($data);
 
-    	$rows = [];
-    	foreach ($data as $item) {
-    		$row = explode(',', $item);
-		    $add = [];
-		    foreach ($keys as $k => $v) {
-		    	$add[$v] = $row[$k];
-		    }
-    		array_push($rows, $add);
-    	}
+        $rows = [];
+        foreach ($data as $item) {
+            $row = explode(',', $item);
+            $add = [];
+            foreach ($keys as $k => $v) {
+                $add[$v] = $row[$k];
+            }
+            array_push($rows, $add);
+        }
 
-    	return [ 'format' => 'array', 'data' => $rows ];
+        return [ 'format' => 'array', 'data' => $rows ];
     }
 }
