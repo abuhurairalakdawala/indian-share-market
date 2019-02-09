@@ -1,6 +1,6 @@
 # Indian Share Market
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/abuhurairalakdawala/indian-share-market.svg)](https://packagist.org/packages/monolog/monolog)
+[![Latest Stable Version](https://img.shields.io/packagist/v/abuhurairalakdawala/indian-share-market.svg)](https://packagist.org/packages/abuhurairalakdawala/indian-share-market)
 
 ### Introduction
 This package helps you get latest data from National and Bombay Stock Exchange.
