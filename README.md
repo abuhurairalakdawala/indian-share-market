@@ -4,7 +4,10 @@
 
 ### Introduction
 This package helps you get latest data from National and Bombay Stock Exchange.
-You can get the data in CSV or Array formats.
+
+You can also use it for REST API's.
+
+You can get the data in JSON, CSV or Array formats.
 
 > The stock market is filled with individuals who know the price of everything, but the value of nothing.
 
