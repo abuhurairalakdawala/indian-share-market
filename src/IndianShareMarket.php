@@ -88,4 +88,12 @@ class IndianShareMarket
             return json_encode($data);
         }
     }
+
+    public function download()
+    {
+        header('Content-Type: application/csv');
+        header('Content-Disposition: attachment; filename="'.$this->data['nse']['type'].'.csv";');
+
+        readfile($this->csv()['file_path']);
+    }
 }
