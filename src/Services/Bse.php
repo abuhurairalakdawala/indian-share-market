@@ -16,6 +16,12 @@ class Bse implements ExchangeInterface
         $this->parseDocument = new ParseDocument();
     }
 
+    /**
+     * Currently this feature is not available as BSE does not provide any api to download data.
+     * 
+     * @param  string $format
+     * @return array
+     */
     public function stockList(string $format): array
     {
         throw new ExchangeException(

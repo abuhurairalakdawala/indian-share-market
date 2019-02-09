@@ -25,6 +25,7 @@ class Nse implements ExchangeInterface
     /**
      * Fetches all the stocks of Nse in three formats array, csv or download a file.
      * 
+     * @param  string $format
      * @return array
      */
     public function stockList(string $format = 'array'): array
@@ -50,7 +51,7 @@ class Nse implements ExchangeInterface
      * Generates CSV file filled with nse equities.
      * 
      * @param  array  $data
-     * @return void
+     * @return array
      */
     private function stockListCsv(array $data): array
     {
