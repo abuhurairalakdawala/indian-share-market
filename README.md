@@ -34,6 +34,7 @@ We have to fetch the following data
  - Top Gainers
  - Top Loosers
  - Future and option data
+ - Historical Data
  - more to come...
 
 ### Development
