@@ -2,21 +2,22 @@
 namespace IndianShareMarket\Services;
 
 use IndianShareMarket\Services\Nse\Equity;
+use IndianShareMarket\Services\Nse\Sector;
 use IndianShareMarket\Services\ParseDocument;
 use IndianShareMarket\Exceptions\ExchangeException;
 
-class Nse implements ExchangeInterface
+class Nse extends Exchange implements ExchangeInterface
 {
-    use Sectors, Equity;
+    use Equity, Sector;
 
     /** @var $parseDocument \IndianShareMarket\Services\ParseDocument */
     private $parseDocument;
 
-    /** @var $csvPath string */
-    private $csvPath = 'ism/csv/';
-
     /** @var $csvEquitiesFilename string */
     private $csvEquitiesFilename = 'nse_equities.csv';
+
+    /** @var $csvSectorsFilename string */
+    private $csvSectorsFilename = 'nse_sectors.csv';
 
     /** Nse constructor. */
     public function __construct()

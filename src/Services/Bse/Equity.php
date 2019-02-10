@@ -6,8 +6,7 @@ trait Equity
     /**
      * Currently this feature is not available as BSE does not provide any api to download data.
      * 
-     * @param  string $format
-     * @return array
+     * @return string
      */
     public function stockList(): string
     {

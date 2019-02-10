@@ -4,6 +4,7 @@ namespace IndianShareMarket;
 use IndianShareMarket\Services\Nse;
 use IndianShareMarket\Services\Bse;
 use IndianShareMarket\Exceptions\ExchangeException;
+use IndianShareMarket\DataProviders\ExchangeDataObject;
 
 class IndianShareMarket
 {
@@ -24,40 +25,19 @@ class IndianShareMarket
     }
 
     /**
-     * Fetches all the stocks of Nse & Bse.
-     * 
-     * @param  array  $options
-     * @return array
-     */
-    public function stockList(string $exchange = 'nse'): IndianShareMarket
-    {
-        if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'all') {
-            throw new ExchangeException('Incorrect parameter value. Only nse and bse is allowed.');
-        }
-
-        if ($exchange == 'nse' || $exchange == 'all') {
-            $this->data['nse']['data'] = $this->nse->stockList();
-            $this->data['nse']['type'] = 'equity';
-        }
-
-        if ($exchange == 'bse' || $exchange == 'all') {
-            $this->data['bse']['data'] = $this->bse->stockList();
-            $this->data['bse']['type'] = 'equity';
-        }
-
-        return $this;
-    }
-
-    /**
      * Returns data in array format.
      * 
      * @return array
      */
     public function array(): array
     {
+        $array = [];
+
         if (isset($this->data['nse'])) {
-            return $this->nse->{$this->data['nse']['type']."InArray"}($this->data['nse']['data']);
+            $array['nse'] = $this->nse->{ExchangeDataObject::$serviceType."InArray"}();
         }
+
+        return $array;
     }
 
 
@@ -68,9 +48,13 @@ class IndianShareMarket
      */
     public function csv(): array
     {
+        $array = [];
+
         if (isset($this->data['nse'])) {
-            return $this->nse->{$this->data['nse']['type']."InCsv"}($this->data['nse']['data']);
+            $array['nse'] = $this->nse->{ExchangeDataObject::$serviceType."InCsv"}();
         }
+
+        return $array;
     }
 
     /**
@@ -81,19 +65,76 @@ class IndianShareMarket
     public function json(): string
     {
         header('Content-Type: application/json');
-        if (isset($this->data['nse'])) {
-            $data = $this->nse->{$this->data['nse']['type']."InArray"}($this->data['nse']['data']);
-            $data['format'] = 'json';
 
-            return json_encode($data);
+        $array = [];
+
+        if (isset($this->data['nse'])) {
+            $array['nse'] = $this->nse->{ExchangeDataObject::$serviceType."InArray"}();
+            $array['nse']['format'] = 'json';
         }
+
+        return json_encode($array);
     }
 
+    /**
+     * Download Stocks list in CSV.
+     * 
+     * @return void
+     */
     public function download()
     {
         header('Content-Type: application/csv');
-        header('Content-Disposition: attachment; filename="'.$this->data['nse']['type'].'.csv";');
+        header('Content-Disposition: attachment; filename="'.ExchangeDataObject::$serviceType.'.csv";');
 
-        readfile($this->csv()['file_path']);
+        readfile($this->csv()['nse']['file_path']);
+    }
+
+    /**
+     * Fetches all the stocks of Nse & Bse.
+     * 
+     * @param  string  $exchange
+     * @return IndianShareMarket
+     */
+    public function stockList(string $exchange = 'nse'): IndianShareMarket
+    {
+        if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
+            throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
+        }
+
+        ExchangeDataObject::$serviceType = 'equity';
+
+        if ($exchange == 'nse' || $exchange == 'both') {
+            $this->nse->stockList();
+            $this->data['nse'] = true;
+        }
+
+        if ($exchange == 'bse' || $exchange == 'both') {
+            $this->bse->stockList();
+            $this->data['bse'] = true;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Fetches all the sectors of Nse & Bse.
+     * 
+     * @param  string $exchange
+     * @return IndianShareMarket
+     */
+    public function sectorList(string $exchange = 'nse'): IndianShareMarket
+    {
+        if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
+            throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
+        }
+
+        ExchangeDataObject::$serviceType = 'sector';
+
+        if ($exchange == 'nse' || $exchange == 'both') {
+            $this->nse->sectorList();
+            $this->data['nse'] = true;
+        }
+
+        return $this;
     }
 }
