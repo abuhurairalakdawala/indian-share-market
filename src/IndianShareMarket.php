@@ -167,7 +167,7 @@ class IndianShareMarket
      * @param  string $exchange
      * @return IndianShareMarket
      */
-    public function sectorList(string $exchange = 'bse'): IndianShareMarket
+    public function sectorList(string $exchange = 'both'): IndianShareMarket
     {
         if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
             throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
