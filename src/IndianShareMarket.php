@@ -34,12 +34,17 @@ class IndianShareMarket
         $array = [];
 
         if (isset($this->data['nse'])) {
+            ExchangeDataObject::$exchange = 'nse';
             $array['nse'] = $this->nse->{ExchangeDataObject::$serviceType."InArray"}();
+        }
+
+        if (isset($this->data['bse'])) {
+            ExchangeDataObject::$exchange = 'bse';
+            $array['bse'] = $this->bse->{ExchangeDataObject::$serviceType."InArray"}();
         }
 
         return $array;
     }
-
 
     /**
      * Generates CSV.
@@ -51,7 +56,13 @@ class IndianShareMarket
         $array = [];
 
         if (isset($this->data['nse'])) {
+            ExchangeDataObject::$exchange = 'nse';
             $array['nse'] = $this->nse->{ExchangeDataObject::$serviceType."InCsv"}();
+        }
+
+        if (isset($this->data['bse'])) {
+            ExchangeDataObject::$exchange = 'bse';
+            $array['bse'] = $this->bse->{ExchangeDataObject::$serviceType."InCsv"}();
         }
 
         return $array;
@@ -69,8 +80,15 @@ class IndianShareMarket
         $array = [];
 
         if (isset($this->data['nse'])) {
+            ExchangeDataObject::$exchange = 'nse';
             $array['nse'] = $this->nse->{ExchangeDataObject::$serviceType."InArray"}();
             $array['nse']['format'] = 'json';
+        }
+
+        if (isset($this->data['bse'])) {
+            ExchangeDataObject::$exchange = 'bse';
+            $array['bse'] = $this->bse->{ExchangeDataObject::$serviceType."InArray"}();
+            $array['bse']['format'] = 'json';
         }
 
         return json_encode($array);
@@ -83,10 +101,35 @@ class IndianShareMarket
      */
     public function download()
     {
-        header('Content-Type: application/csv');
-        header('Content-Disposition: attachment; filename="'.ExchangeDataObject::$serviceType.'.csv";');
+        $zipname = 'files.zip';
 
-        readfile($this->csv()['nse']['file_path']);
+        $files = array();
+
+        if (isset($this->data['nse'])) {
+            $files[] = $this->csv()['nse']['file_path'];
+        }
+
+        if (isset($this->data['bse'])) {
+            $files[] = $this->csv()['bse']['file_path'];
+        }
+
+        if (count($files) > 1) {
+            header('Content-Type: application/zip');
+            header('Content-disposition: attachment; filename='. $zipname);
+            $zip = new \ZipArchive;
+            $zip->open($zipname, \ZipArchive::CREATE);
+            foreach ($files as $file) {
+                $newFilename = substr($file, strrpos($file, '/') + 1);
+                $zip->addFile($file, $file);
+            }
+            $zip->close();
+            readfile($zipname);
+            unlink($zipname);
+        } else {
+            header('Content-Type: application/csv');
+            header('Content-Disposition: attachment; filename='. ExchangeDataObject::$serviceType.'.csv');
+            readfile($files[0]);
+        }
     }
 
     /**
@@ -100,6 +143,8 @@ class IndianShareMarket
         if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
             throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
         }
+
+        $this->data = null;
 
         ExchangeDataObject::$serviceType = 'equity';
 
@@ -122,17 +167,24 @@ class IndianShareMarket
      * @param  string $exchange
      * @return IndianShareMarket
      */
-    public function sectorList(string $exchange = 'nse'): IndianShareMarket
+    public function sectorList(string $exchange = 'bse'): IndianShareMarket
     {
         if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
             throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
         }
+
+        $this->data = null;
 
         ExchangeDataObject::$serviceType = 'sector';
 
         if ($exchange == 'nse' || $exchange == 'both') {
             $this->nse->sectorList();
             $this->data['nse'] = true;
+        }
+
+        if ($exchange == 'bse' || $exchange == 'both') {
+            $this->bse->sectorList();
+            $this->data['bse'] = true;
         }
 
         return $this;

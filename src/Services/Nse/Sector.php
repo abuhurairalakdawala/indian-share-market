@@ -9,9 +9,9 @@ trait Sector
     /**
      * Fetches all the sectors of Nse.
      * 
-     * @return string
+     * @return array
      */
-    public function sectorList()
+    public function sectorList(): array
     {
         $day = date("d");
         $month = date("m");
@@ -27,7 +27,7 @@ trait Sector
                 break;
             }
         }
-        ExchangeDataObject::$data = utf8_encode($fileData);
+        ExchangeDataObject::$data['nse'] = utf8_encode($fileData);
 
         return ExchangeDataObject::$data;
     }

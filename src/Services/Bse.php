@@ -7,12 +7,15 @@ use IndianShareMarket\Services\Bse\Sector;
 use IndianShareMarket\Services\ParseDocument;
 use IndianShareMarket\Exceptions\ExchangeException;
 
-class Bse implements ExchangeInterface
+class Bse extends Exchange implements ExchangeInterface
 {
     use Equity, Sector;
 
     /** @var $parseDocument \IndianShareMarket\Services\ParseDocument */
     private $parseDocument;
+
+    /** @var $csvSectorsFilename string */
+    private $csvSectorsFilename = 'bse_sectors.csv';
 
     /** Bse constructor. */
     public function __construct()

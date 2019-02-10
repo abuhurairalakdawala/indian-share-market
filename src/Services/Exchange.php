@@ -47,10 +47,19 @@ class Exchange
      */
     public function fillCsv($file)
     {
-        $data = explode("\n", ExchangeDataObject::$data);
-        foreach ($data as $row) {
-            fputcsv($file, explode(',', $row));
+        $data = json_decode(ExchangeDataObject::$data[ExchangeDataObject::$exchange], true);
+        if($data) {
+            fputcsv($file, array_keys(current($data)));
+            foreach ($data as $row) {
+                fputcsv($file, $row);
+            }
+        } else {
+            $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
+            foreach ($data as $row) {
+                fputcsv($file, explode(',', $row));
+            }
         }
+
         fclose($file);
     }
 
@@ -74,7 +83,7 @@ class Exchange
      */
     public function prepareArray(): array
     {
-        $data = explode("\n", ExchangeDataObject::$data);
+        $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
         array_pop($data);
         $firstRow = strtolower(current($data));
         $keys = array_map(function($item) {
@@ -93,5 +102,15 @@ class Exchange
         }
 
         return $rows;
+    }
+
+    /**
+     * Convert data from ExchangeDataObject to array.
+     * 
+     * @return array
+     */
+    public function convertJsonToArray(): array
+    {
+        return json_decode(ExchangeDataObject::$data[ExchangeDataObject::$exchange], true);
     }
 }

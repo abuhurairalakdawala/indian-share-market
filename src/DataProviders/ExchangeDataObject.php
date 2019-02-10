@@ -6,4 +6,6 @@ class ExchangeDataObject
 	public static $data = [];
 
 	public static $serviceType;
+
+	public static $exchange;
 }

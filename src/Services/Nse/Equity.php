@@ -9,12 +9,12 @@ trait Equity
     /**
      * Fetches all the stocks of Nse.
      * 
-     * @return string
+     * @return array
      */
-    public function stockList(): string
+    public function stockList(): array
     {
         $fileData = $this->parseDocument->pullDataFromRemote(Url::$nseStocks);
-        ExchangeDataObject::$data = utf8_encode($fileData);
+        ExchangeDataObject::$data['nse'] = utf8_encode($fileData);
 
         return ExchangeDataObject::$data;
     }
