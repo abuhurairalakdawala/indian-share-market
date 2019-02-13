@@ -10,4 +10,6 @@ class Url
     public static $nseSectors = 'https://www.nseindia.com/content/indices/ind_close_all_ddmmyyyy.csv';
 
     public static $bseSectors = 'https://api.bseindia.com/BseIndiaAPI/api/Dropdowndata/w';
+
+    public static $bseIndustries = 'https://www.bseindia.com/corporates/List_Scrips.aspx';
 }

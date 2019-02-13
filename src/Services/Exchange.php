@@ -47,16 +47,25 @@ class Exchange
      */
     public function fillCsv($file)
     {
-        $data = json_decode(ExchangeDataObject::$data[ExchangeDataObject::$exchange], true);
-        if($data) {
-            fputcsv($file, array_keys(current($data)));
+        $data = ExchangeDataObject::$data[ExchangeDataObject::$exchange];
+
+        if (is_array($data)) {
             foreach ($data as $row) {
-                fputcsv($file, $row);
+                fputcsv($file, (is_string($row)) ? [$row] : $row);
             }
         } else {
-            $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
-            foreach ($data as $row) {
-                fputcsv($file, explode(',', $row));
+            $data = json_decode($data, true);
+            if ($data) {
+                $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
+                fputcsv($file, array_keys(current($data)));
+                foreach ($data as $row) {
+                    fputcsv($file, $row);
+                }
+            } else {
+                $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
+                foreach ($data as $row) {
+                    fputcsv($file, explode(',', $row));
+                }
             }
         }
 
@@ -83,8 +92,12 @@ class Exchange
      */
     public function prepareArray(): array
     {
-        $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
-        array_pop($data);
+        $data = ExchangeDataObject::$data[ExchangeDataObject::$exchange];
+        if (!is_array($data)) {
+            $data = explode("\n", $data);
+            $data = array_filter($data);
+        }
+
         $firstRow = strtolower(current($data));
         $keys = array_map(function($item) {
             return str_replace(' ', '_', trim($item));

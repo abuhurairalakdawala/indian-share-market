@@ -3,12 +3,13 @@ namespace IndianShareMarket\Services;
 
 use IndianShareMarket\Services\Nse\Equity;
 use IndianShareMarket\Services\Nse\Sector;
+use IndianShareMarket\Services\Nse\Industry;
 use IndianShareMarket\Services\ParseDocument;
 use IndianShareMarket\Exceptions\ExchangeException;
 
 class Nse extends Exchange implements ExchangeInterface
 {
-    use Equity, Sector;
+    use Equity, Sector, Industry;
 
     /** @var $parseDocument \IndianShareMarket\Services\ParseDocument */
     private $parseDocument;

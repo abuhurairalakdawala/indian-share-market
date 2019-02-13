@@ -189,4 +189,18 @@ class IndianShareMarket
 
         return $this;
     }
+
+    /**
+     * Fetches all the industries of Nse & Bse.
+     * 
+     * @return IndianShareMarket
+     */
+    public function industryList(): IndianShareMarket
+    {
+        ExchangeDataObject::$serviceType = 'industry';
+        $this->data['bse'] = true;
+        $this->bse->industryList();
+
+        return $this;
+    }
 }
