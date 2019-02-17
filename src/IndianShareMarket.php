@@ -24,6 +24,35 @@ class IndianShareMarket
         $this->bse = new Bse();
     }
 
+    public function __call($name, $arguments)
+    {
+        if (empty($arguments)) {
+            $exchange = 'both';
+        } else {
+            $exchange = $arguments[0];
+        }
+
+        if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
+            throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
+        }
+
+        ExchangeDataObject::$serviceType = $name;
+
+        $this->data = null;
+
+        if ($exchange == 'nse' || $exchange == 'both') {
+            $this->nse->{$name}();
+            $this->data['nse'] = true;
+        }
+
+        if ($exchange == 'bse' || $exchange == 'both') {
+            $this->bse->{$name}();
+            $this->data['bse'] = true;
+        }
+
+        return $this;
+    }
+
     /**
      * Returns data in array format.
      * 
@@ -130,77 +159,5 @@ class IndianShareMarket
             header('Content-Disposition: attachment; filename='. ExchangeDataObject::$serviceType.'.csv');
             readfile($files[0]);
         }
-    }
-
-    /**
-     * Fetches all the stocks of Nse & Bse.
-     * 
-     * @param  string  $exchange
-     * @return IndianShareMarket
-     */
-    public function stockList(string $exchange = 'nse'): IndianShareMarket
-    {
-        if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
-            throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
-        }
-
-        $this->data = null;
-
-        ExchangeDataObject::$serviceType = 'equity';
-
-        if ($exchange == 'nse' || $exchange == 'both') {
-            $this->nse->stockList();
-            $this->data['nse'] = true;
-        }
-
-        if ($exchange == 'bse' || $exchange == 'both') {
-            $this->bse->stockList();
-            $this->data['bse'] = true;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Fetches all the sectors of Nse & Bse.
-     * 
-     * @param  string $exchange
-     * @return IndianShareMarket
-     */
-    public function sectorList(string $exchange = 'both'): IndianShareMarket
-    {
-        if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
-            throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
-        }
-
-        $this->data = null;
-
-        ExchangeDataObject::$serviceType = 'sector';
-
-        if ($exchange == 'nse' || $exchange == 'both') {
-            $this->nse->sectorList();
-            $this->data['nse'] = true;
-        }
-
-        if ($exchange == 'bse' || $exchange == 'both') {
-            $this->bse->sectorList();
-            $this->data['bse'] = true;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Fetches all the industries of Nse & Bse.
-     * 
-     * @return IndianShareMarket
-     */
-    public function industryList(): IndianShareMarket
-    {
-        ExchangeDataObject::$serviceType = 'industry';
-        $this->data['bse'] = true;
-        $this->bse->industryList();
-
-        return $this;
     }
 }

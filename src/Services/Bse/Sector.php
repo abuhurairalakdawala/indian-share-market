@@ -11,7 +11,7 @@ trait Sector
      * 
      * @return array
      */
-    public function sectorList(): array
+    public function sectors(): array
     {
         $fileData = $this->parseDocument->pullDataFromRemote(Url::$bseSectors);
         ExchangeDataObject::$data['bse'] = (json_encode(json_decode($fileData, true)['Index']));
@@ -24,7 +24,7 @@ trait Sector
      *
      * @return array
      */
-    public function sectorInCsv(): array
+    public function sectorsInCsv(): array
     {
         $this->generateCsv($this->csvSectorsFilename);
 
@@ -39,7 +39,7 @@ trait Sector
      * 
      * @return array
      */
-    public function sectorInArray(): array
+    public function sectorsInArray(): array
     {
         return [ 'format' => 'array', 'data' => $this->convertJsonToArray() ];
     }

@@ -11,7 +11,7 @@ trait Sector
      * 
      * @return array
      */
-    public function sectorList(): array
+    public function sectors(): array
     {
         $day = date("d");
         $month = date("m");
@@ -37,7 +37,7 @@ trait Sector
      *
      * @return array
      */
-    public function sectorInCsv(): array
+    public function sectorsInCsv(): array
     {
         $this->generateCsv($this->csvSectorsFilename);
 
@@ -52,7 +52,7 @@ trait Sector
      * 
      * @return array
      */
-    public function sectorInArray(): array
+    public function sectorsInArray(): array
     {
         return [ 'format' => 'array', 'data' => $this->prepareArray() ];
     }

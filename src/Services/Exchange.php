@@ -54,17 +54,18 @@ class Exchange
                 fputcsv($file, (is_string($row)) ? [$row] : $row);
             }
         } else {
-            $data = json_decode($data, true);
-            if ($data) {
-                $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
-                fputcsv($file, array_keys(current($data)));
-                foreach ($data as $row) {
-                    fputcsv($file, $row);
-                }
-            } else {
-                $data = explode("\n", ExchangeDataObject::$data[ExchangeDataObject::$exchange]);
+            $data1 = json_decode($data, true);
+            if (!is_array($data1)) {
+                $data = explode("\n", $data);
+                $data = array_filter($data);
                 foreach ($data as $row) {
                     fputcsv($file, explode(',', $row));
+                }
+            } else {
+                $data1 = array_filter($data1);
+                fputcsv($file, array_keys(current($data1)));
+                foreach ($data1 as $row) {
+                    fputcsv($file, $row);
                 }
             }
         }
@@ -95,9 +96,9 @@ class Exchange
         $data = ExchangeDataObject::$data[ExchangeDataObject::$exchange];
         if (!is_array($data)) {
             $data = explode("\n", $data);
-            $data = array_filter($data);
         }
 
+        $data = array_filter($data);
         $firstRow = strtolower(current($data));
         $keys = array_map(function($item) {
             return str_replace(' ', '_', trim($item));

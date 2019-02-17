@@ -12,7 +12,7 @@ trait Industry
      * 
      * @return array
      */
-    public function industryList(): array
+    public function industries(): array
     {
         $list = [];
         $fileData = $this->parseDocument->get(Url::$bseIndustries);
@@ -53,7 +53,7 @@ trait Industry
      * 
      * @return array
      */
-    public function industryInCsv(): array
+    public function industriesInCsv(): array
     {
         $this->generateCsv($this->csvIndustryFilename);
 
@@ -68,7 +68,7 @@ trait Industry
      * 
      * @return array
      */
-    public function industryInArray(): array
+    public function industriesInArray(): array
     {
         return [ 'format' => 'array', 'data' => $this->prepareArray() ];
     }

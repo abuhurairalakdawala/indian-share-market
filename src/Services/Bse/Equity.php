@@ -11,7 +11,7 @@ trait Equity
      * 
      * @return array
      */
-    public function stockList(): array
+    public function equities(): array
     {
         throw new ExchangeException(
             'Currently this feature is not available :(... By the time you can download Bse stocks from here : '

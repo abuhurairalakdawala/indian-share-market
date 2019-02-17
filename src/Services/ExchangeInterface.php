@@ -3,9 +3,9 @@ namespace IndianShareMarket\Services;
 
 interface ExchangeInterface
 {
-    public function stockList(): array;
+    public function equities(): array;
 
-    public function sectorList(): array;
+    public function sectors(): array;
 
-    public function industryList(): array;
+    public function industries(): array;
 }

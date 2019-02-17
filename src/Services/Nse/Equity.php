@@ -11,7 +11,7 @@ trait Equity
      * 
      * @return array
      */
-    public function stockList(): array
+    public function equities(): array
     {
         $fileData = $this->parseDocument->pullDataFromRemote(Url::$nseStocks);
         ExchangeDataObject::$data['nse'] = utf8_encode($fileData);
@@ -25,7 +25,7 @@ trait Equity
      * @param  string  $data
      * @return array
      */
-    public function equityInCsv(): array
+    public function equitiesInCsv(): array
     {
         $this->generateCsv($this->csvEquitiesFilename);
 
@@ -40,7 +40,7 @@ trait Equity
      *  
      * @return array
      */
-    public function equityInArray(): array
+    public function equitiesInArray(): array
     {
         return [ 'format' => 'array', 'data' => $this->prepareArray() ];
     }
