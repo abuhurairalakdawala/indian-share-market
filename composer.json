@@ -7,11 +7,19 @@
             "email": "abu2602@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "keywords": [
+        "nifty",
+        "sensex",
+        "nse",
+        "bse"
+    ],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "require": {},
     "autoload": {
-    	"psr-4": {
-    		"IndianShareMarket\\": "src/"
-    	}
+        "psr-4": {
+            "IndianShareMarket\\": "src/"
+        }
     }
 }
