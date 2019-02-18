@@ -99,18 +99,31 @@ class Exchange
         }
 
         $data = array_filter($data);
-        $firstRow = strtolower(current($data));
-        $keys = array_map(function($item) {
-            return str_replace(' ', '_', trim($item));
-        }, explode(',', $firstRow));
-        array_shift($data);
+        $firstRow = current($data);
+        if (!is_array($firstRow)) {
+            $firstRow = explode(',', $firstRow);
+        }
+        $keys = array_keys($firstRow);
+        $dataWithKeys = true;
+
+        if ($keys == range(0, count($firstRow) - 1)) {
+            $dataWithKeys = false;
+            $keys = array_map(function($item) {
+                return str_replace(' ', '_', trim($item));
+            }, $firstRow);
+            array_shift($data);
+        }
 
         $rows = [];
         foreach ($data as $item) {
-            $row = explode(',', $item);
+            $row = $item;
+            if (!is_array($row)) {
+                $row = explode(',', $item);
+            }
+
             $add = [];
             foreach ($keys as $k => $v) {
-                $add[$v] = $row[$k];
+                $add[$v] = $row[($dataWithKeys) ? $v : $k];
             }
             array_push($rows, $add);
         }

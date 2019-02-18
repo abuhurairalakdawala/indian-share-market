@@ -35,7 +35,7 @@ trait Sector
     }
 
     /**
-     * Returns list of Nse sectors in an array.
+     * Returns list of BSE sectors in an array.
      * 
      * @return array
      */

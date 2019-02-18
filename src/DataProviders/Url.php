@@ -12,4 +12,6 @@ class Url
     public static $bseSectors = 'https://api.bseindia.com/BseIndiaAPI/api/Dropdowndata/w';
 
     public static $bseIndustries = 'https://www.bseindia.com/corporates/List_Scrips.aspx';
+
+    public static $nseIndustries = 'https://www.nseindia.com/homepage/Indices1.json';
 }

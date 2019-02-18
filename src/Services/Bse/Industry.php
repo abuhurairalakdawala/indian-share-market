@@ -49,7 +49,7 @@ trait Industry
     }
 
     /**
-     * Generates CSV file filled with Bse industries.
+     * Generates CSV file filled with BSE industries.
      * 
      * @return array
      */
@@ -64,7 +64,7 @@ trait Industry
     }
 
     /**
-     * Returns list of Bse industries in an array.
+     * Returns list of BSE industries in an array.
      * 
      * @return array
      */

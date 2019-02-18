@@ -20,6 +20,9 @@ class Nse extends Exchange implements ExchangeInterface
     /** @var $csvSectorsFilename string */
     private $csvSectorsFilename = 'nse_sectors.csv';
 
+    /** @var $csvIndustryFilename string */
+    private $csvIndustryFilename = 'nse_industry.csv';
+
     /** Nse constructor. */
     public function __construct()
     {
