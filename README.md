@@ -24,13 +24,13 @@ $ composer require abuhurairalakdawala/indian-share-market
 
   - Retrieve latest stocks from NSE & BSE.
   - List of NSE & BSE Sectors.
+  - List of NSE & BSE Industries.
 
 ### Todos
 
 We have to fetch the following data
 
  - Real time quotes
- - Industries
  - Top Gainers
  - Top Loosers
  - Future and option data
