@@ -109,7 +109,7 @@ class Exchange
         if ($keys == range(0, count($firstRow) - 1)) {
             $dataWithKeys = false;
             $keys = array_map(function($item) {
-                return str_replace(' ', '_', trim($item));
+                return str_replace(' ', '_', strtolower(trim($item)));
             }, $firstRow);
             array_shift($data);
         }

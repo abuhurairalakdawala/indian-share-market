@@ -130,8 +130,6 @@ class IndianShareMarket
      */
     public function download()
     {
-        $zipname = 'files.zip';
-
         $files = array();
 
         if (isset($this->data['nse'])) {
@@ -143,6 +141,7 @@ class IndianShareMarket
         }
 
         if (count($files) > 1) {
+            $zipname = 'files.zip';
             header('Content-Type: application/zip');
             header('Content-disposition: attachment; filename='. $zipname);
             $zip = new \ZipArchive;
