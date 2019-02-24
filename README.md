@@ -20,6 +20,9 @@ This is a PHP library, it require PHP7.
 $ composer require abuhurairalakdawala/indian-share-market
 ```
 
+### Documentation
+For documentation visit [[here]](https://abuhurairalakdawala.github.io/ism/) or [[@github]](https://abuhurairalakdawala.github.io/ism/).
+
 ### Features!
 
   - Retrieve latest stocks from NSE & BSE.
