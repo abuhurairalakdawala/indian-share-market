@@ -21,7 +21,7 @@ $ composer require abuhurairalakdawala/indian-share-market
 ```
 
 ### Documentation
-For documentation visit [[here]](https://abuhurairalakdawala.github.io/ism/) or [[@github]](https://abuhurairalakdawala.github.io/ism/).
+For documentation visit [[here]](https://abuhurairalakdawala.github.io/ism/) or [[@github]](https://github.com/abuhurairalakdawala/ism).
 
 ### Features!
 
