@@ -50,8 +50,13 @@ class Exchange
         $data = ExchangeDataObject::$data[ExchangeDataObject::$exchange];
 
         if (is_array($data)) {
-            foreach ($data as $row) {
-                fputcsv($file, (is_string($row)) ? [$row] : $row);
+            if (array_keys($data) !== range(0, count($data) - 1)) {
+                fputcsv($file, array_keys($data));
+                fputcsv($file, array_values($data));
+            } else {
+                foreach ($data as $row) {
+                    fputcsv($file, (is_string($row)) ? [$row] : $row);
+                }
             }
         } else {
             $data1 = json_decode($data, true);
@@ -99,6 +104,9 @@ class Exchange
         }
 
         $data = array_filter($data);
+        if (array_keys($data) !== range(0, count($data) - 1)) {
+            return $data;
+        }
         $firstRow = current($data);
         if (!is_array($firstRow)) {
             $firstRow = explode(',', $firstRow);

@@ -32,6 +32,8 @@ class IndianShareMarket
             $exchange = $arguments[0];
         }
 
+        array_shift($arguments);
+
         if ($exchange != 'nse' && $exchange != 'bse' && $exchange != 'both') {
             throw new ExchangeException('Incorrect parameter value. Only nse, bse or both is allowed.');
         }
@@ -41,12 +43,12 @@ class IndianShareMarket
         $this->data = null;
 
         if ($exchange == 'nse' || $exchange == 'both') {
-            $this->nse->{$name}();
+            call_user_func_array(array($this->nse, $name), $arguments);
             $this->data['nse'] = true;
         }
 
         if ($exchange == 'bse' || $exchange == 'both') {
-            $this->bse->{$name}();
+            call_user_func_array(array($this->nse, $name), $arguments);
             $this->data['bse'] = true;
         }
 

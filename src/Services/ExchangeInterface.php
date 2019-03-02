@@ -8,4 +8,6 @@ interface ExchangeInterface
     public function sectors(): array;
 
     public function industries(): array;
+
+    // public function getQuote(): array;
 }
