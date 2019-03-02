@@ -15,5 +15,7 @@ class Url
 
     public static $nseIndustries = 'http://www.moneycontrol.com/stocks/sectors/';
 
-    public static $getQuote = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=';
+    public static $getNseQuote = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=';
+
+    public static $getBseQuote = 'https://api.bseindia.com/BseIndiaAPI/api/StockReachGraph/w?flag=0&fromdate=&todate=&seriesid=&scripcode=';
 }

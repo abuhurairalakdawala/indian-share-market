@@ -48,7 +48,7 @@ class IndianShareMarket
         }
 
         if ($exchange == 'bse' || $exchange == 'both') {
-            call_user_func_array(array($this->nse, $name), $arguments);
+            call_user_func_array(array($this->bse, $name), $arguments);
             $this->data['bse'] = true;
         }
 

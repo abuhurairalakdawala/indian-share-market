@@ -28,12 +28,12 @@ For documentation visit [[here]](https://abuhurairalakdawala.github.io/ism/) or 
   - Retrieve latest stocks from NSE & BSE.
   - List of NSE & BSE Sectors.
   - List of NSE & BSE Industries.
+  - Real time stock quotes
 
 ### Todos
 
 We have to fetch the following data
 
- - Real time quotes
  - Top Gainers
  - Top Loosers
  - Future and option data

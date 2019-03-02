@@ -1,5 +1,5 @@
 <?php
-namespace IndianShareMarket\Services\Nse;
+namespace IndianShareMarket\Services\Bse;
 
 use IndianShareMarket\DataProviders\Url;
 use IndianShareMarket\DataProviders\ExchangeDataObject;
@@ -8,9 +8,10 @@ trait GetQuote
 {
     public function getQuote(string $symbol)
     {
-        $fileData = $this->parseDocument->get(Url::$getNseQuote.$symbol);
-        $div = $this->parseDocument->findId('responseDiv');
-        ExchangeDataObject::$data['nse'] = json_decode(trim($div), true)['data'][0];
+        $fileData = $this->parseDocument->pullDataFromRemote(Url::$getBseQuote.$symbol);
+        $fileData = json_decode($fileData, true);
+        unset($fileData['Data']);
+        ExchangeDataObject::$data['bse'] = $fileData;
 
         return ExchangeDataObject::$data;
     }
