@@ -9,5 +9,7 @@ interface ExchangeInterface
 
     public function industries(): array;
 
+    public function topGainers(): array;
+    
     // public function getQuote(): array;
 }

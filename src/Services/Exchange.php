@@ -53,6 +53,11 @@ class Exchange
             if (array_keys($data) !== range(0, count($data) - 1)) {
                 fputcsv($file, array_keys($data));
                 fputcsv($file, array_values($data));
+            } elseif (is_array($data[0])) {
+                fputcsv($file, array_keys($data[0]));
+                foreach ($data as $row) {
+                    fputcsv($file, $row);
+                }
             } else {
                 foreach ($data as $row) {
                     fputcsv($file, (is_string($row)) ? [$row] : $row);
