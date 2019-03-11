@@ -3,6 +3,7 @@ namespace IndianShareMarket\Services\Bse;
 
 use IndianShareMarket\DataProviders\Url;
 use IndianShareMarket\Exceptions\ExchangeException;
+use IndianShareMarket\DataProviders\ExchangeDataObject;
 
 trait Equity
 {
@@ -13,11 +14,29 @@ trait Equity
      */
     public function equities(): array
     {
-        throw new ExchangeException(
-            'Currently this feature is not available :(... By the time you can download Bse stocks from here : '
+        ExchangeDataObject::$data['bse'] = [
+            'error' => 'Currently BSE data is not available :(... By the time you can download BSE stocks from here : '
             .Url::$bseStocks
-        );
+        ];
 
-        return [];
+        return ExchangeDataObject::$data['bse'];
+    }
+
+    public function equitiesInArray()
+    {
+        return [
+            'format' => 'array',
+            'data' => [],
+            'error' => ExchangeDataObject::$data['bse']['error']
+        ];
+    }
+
+    public function equitiesInCsv()
+    {
+        return [
+            'format' => 'csv',
+            'file_path' => '',
+            'error' => ExchangeDataObject::$data['bse']['error']
+        ];
     }
 }
