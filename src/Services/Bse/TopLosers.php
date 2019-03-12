@@ -13,7 +13,7 @@ trait TopLosers
      */
     public function topLosers(): array
     {
-        $topLosersList = $this->parseDocument->get(Url::$bseTopLosers);
+        $topLosersList = $this->parseDocument->pullDataFromRemote(Url::$bseTopLosers);
         $topLosersList = json_decode($topLosersList, true);
         $topLosersList = $topLosersList['Table'] ?? [];
 

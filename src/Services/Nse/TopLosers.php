@@ -13,7 +13,7 @@ trait TopLosers
      */
     public function topLosers(): array
     {
-        $topLosersList = $this->parseDocument->get(Url::$nseTopLosers);
+        $topLosersList = $this->parseDocument->pullDataFromRemote(Url::$nseTopLosers);
         $topLosersList = json_decode($topLosersList, true);
         ExchangeDataObject::$data['nse'] = $topLosersList['data'] ?? [];
 
