@@ -13,15 +13,7 @@ trait TopLosers
      */
     public function topLosers(): array
     {
-        $context = stream_context_create(
-            [
-                "http" => [
-                    "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
-                ]
-            ]
-        );
-
-        $topLosersList = file_get_contents(Url::$bseTopLosers, false, $context);
+        $topLosersList = $this->parseDocument->get(Url::$bseTopLosers);
         $topLosersList = json_decode($topLosersList, true);
         $topLosersList = $topLosersList['Table'] ?? [];
 
