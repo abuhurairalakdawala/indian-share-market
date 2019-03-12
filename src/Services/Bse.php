@@ -6,12 +6,13 @@ use IndianShareMarket\Services\Bse\Equity;
 use IndianShareMarket\Services\Bse\Sector;
 use IndianShareMarket\Services\Bse\Industry;
 use IndianShareMarket\Services\Bse\GetQuote;
+use IndianShareMarket\Services\Bse\TopGainer;
 use IndianShareMarket\Services\ParseDocument;
 use IndianShareMarket\Exceptions\ExchangeException;
 
 class Bse extends Exchange implements ExchangeInterface
 {
-    use Equity, Sector, Industry, GetQuote;
+    use Equity, Sector, Industry, GetQuote, TopGainer;
 
     /** @var $parseDocument \IndianShareMarket\Services\ParseDocument */
     private $parseDocument;
@@ -24,6 +25,9 @@ class Bse extends Exchange implements ExchangeInterface
 
     /** @var $csvQuotesFilename string */
     private $csvQuotesFilename = 'bse_stock.csv';
+
+    /** @var $csvTopGainersFilename string */
+    private $csvTopGainersFilename = 'bse_top_gainers.csv';
 
     /** Bse constructor. */
     public function __construct()
