@@ -26,7 +26,7 @@ class Bse extends Exchange implements ExchangeInterface
     /** @var $csvQuotesFilename string */
     private $csvQuotesFilename = 'bse_stock.csv';
 
-    /** @var $csvQuotesFilename string */
+    /** @var $csvTopGainersFilename string */
     private $csvTopGainersFilename = 'bse_top_gainers.csv';
 
     /** Bse constructor. */

@@ -12,15 +12,8 @@ trait TopGainer
      * @return array
      */
     public function topGainers(): array
-    { 
-        $context = stream_context_create(
-            [
-                "http" => [
-                    "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
-                ]
-            ]
-        );
-        $topGainersList = file_get_contents(Url::$bseTopGainers, false, $context);
+    {
+        $topGainersList = $this->parseDocument->pullDataFromRemote(Url::$bseTopGainers);
         $topGainersList = json_decode($topGainersList, true);
         $topGainersList = $topGainersList['Table'] ?? [];
 
@@ -43,6 +36,7 @@ trait TopGainer
         }, $topGainersList);
 
         ExchangeDataObject::$data['bse'] = $result ?? [];
+
         return ExchangeDataObject::$data;
     }
 
@@ -67,6 +61,7 @@ trait TopGainer
     public function topGainersInCsv(): array
     {
         $this->generateCsv($this->csvTopGainersFilename);
+        
         return [
             'format' => 'csv',
             'file_path' => $this->csvPath.$this->csvTopGainersFilename
