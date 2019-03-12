@@ -18,4 +18,7 @@ class Url
     public static $getNseQuote = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=';
 
     public static $getBseQuote = 'https://api.bseindia.com/BseIndiaAPI/api/StockReachGraph/w?flag=0&fromdate=&todate=&seriesid=&scripcode=';
+
+    public static $nseTopLosers = "https://www.nseindia.com/live_market/dynaContent/live_analysis/losers/niftyLosers1.json";
+    public static $bseTopLosers = "https://api.bseindia.com/BseIndiaAPI/api/HoTurnover/w?flag=L";
 }
