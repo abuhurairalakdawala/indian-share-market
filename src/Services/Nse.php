@@ -5,12 +5,13 @@ use IndianShareMarket\Services\Nse\Equity;
 use IndianShareMarket\Services\Nse\Sector;
 use IndianShareMarket\Services\Nse\Industry;
 use IndianShareMarket\Services\Nse\GetQuote;
+use IndianShareMarket\Services\Nse\TopLosers;
 use IndianShareMarket\Services\ParseDocument;
 use IndianShareMarket\Exceptions\ExchangeException;
 
 class Nse extends Exchange implements ExchangeInterface
 {
-    use Equity, Sector, Industry, GetQuote;
+    use Equity, Sector, Industry, GetQuote, TopLosers;
 
     /** @var $parseDocument \IndianShareMarket\Services\ParseDocument */
     private $parseDocument;
@@ -26,6 +27,9 @@ class Nse extends Exchange implements ExchangeInterface
 
     /** @var $csvQuotesFilename string */
     private $csvQuotesFilename = 'nse_stock.csv';
+
+    /** @var $csvTopLosersFilename string */
+    private $csvTopLosersFilename = 'nse_top_losers.csv';
 
     /** Nse constructor. */
     public function __construct()
